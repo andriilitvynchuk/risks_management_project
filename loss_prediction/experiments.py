@@ -1,9 +1,9 @@
 import sys
 from typing import Iterable, NoReturn
 
+import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
-from pylab import rcParams
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import Lasso, LinearRegression, Ridge
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
@@ -27,7 +27,7 @@ def main() -> NoReturn:
     table.index = pd.to_datetime(table.index)
     variable = table["Close"]
 
-    x = create_arma_table(variable=variable, p=50, q=10, ma_window=10)
+    x = create_arma_table(variable=variable, p=50, q=50, ma_window=10)
     x["next_day_price"] = create_next_day_price(variable=variable)
     x = x.dropna()
     x = x.loc["2019":]
