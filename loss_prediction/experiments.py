@@ -15,7 +15,7 @@ from loss_prediction.target import create_next_day_price
 from utils.dataset import create_arma_table
 
 
-def print_scores(y_true: Iterable, y_predict: Iterable, prefix: str = "") -> None:
+def print_scores(y_true: Iterable, y_predict: Iterable, prefix: str = "") -> NoReturn:
     mae = mean_absolute_error(y_true, y_predict)
     mse = mean_squared_error(y_true, y_predict)
     r2 = r2_score(y_true, y_predict)
