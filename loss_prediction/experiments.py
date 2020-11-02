@@ -6,7 +6,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import Lasso, LinearRegression, Ridge
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from sklearn.metrics import accuracy_score, f1_score, mean_absolute_error, mean_squared_error, r2_score
 from sklearn.svm import SVR
 
 
@@ -19,7 +19,9 @@ def print_scores(y_true: Iterable, y_predict: Iterable, prefix: str = "") -> NoR
     mae = mean_absolute_error(y_true, y_predict)
     mse = mean_squared_error(y_true, y_predict)
     r2 = r2_score(y_true, y_predict)
-    print(f"{prefix} MAE: {mae:4f} MSE: {mse:.4f}, R2-score: {r2:.4f}")
+    f1 = f1_score((y_true > 0), (y_predict > 0))
+    acc = accuracy_score((y_true > 0), (y_predict > 0))
+    print(f"{prefix} MAE: {mae:4f} MSE: {mse:.4f}, R2-score: {r2:.4f}, F1-score: {f1:.4f}, Accuracy: {acc:.4f}")
 
 
 def main() -> NoReturn:
@@ -38,7 +40,7 @@ def main() -> NoReturn:
 
     models = [
         LinearRegression(fit_intercept=False, n_jobs=-1),
-        Ridge(fit_intercept=False),
+        Ridge(fit_intercept=False, alpha=100),
         Lasso(fit_intercept=False, alpha=2),
         # SVR(),
         # RandomForestRegressor(),
