@@ -1,7 +1,6 @@
 import sys
 from typing import Iterable, NoReturn
 
-import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 from sklearn.ensemble import RandomForestRegressor
@@ -42,8 +41,8 @@ def main() -> NoReturn:
         LinearRegression(fit_intercept=False, n_jobs=-1),
         Ridge(fit_intercept=False, alpha=100),
         Lasso(fit_intercept=False, alpha=2),
-        # SVR(),
-        # RandomForestRegressor(),
+        SVR(),
+        RandomForestRegressor(),
     ]
 
     true_day_losses = y_test - x_test["ar(1)"]
