@@ -6,7 +6,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import accuracy_score, f1_score, log_loss
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 
@@ -19,6 +19,7 @@ from utils.dataset import create_arma_table
 def print_scores(
     y_true: Iterable, y_predict: Iterable, prefix: str = "", threshold: Optional[float] = None
 ) -> NoReturn:
+    log_loss_metric = log_loss(y_true, y_predict, labels=[0, 1])
     if threshold is None:
         best_acc = 0
         best_f1 = 0
@@ -31,11 +32,13 @@ def print_scores(
                 best_acc = acc
                 best_threshold = tmp_threshold
                 continue
-        print(f"{prefix} Threshold: {best_threshold} Best F1-score: {best_f1:.4f}, Best Accuracy: {best_acc:.4f}")
+        print(
+            f"{prefix} Threshold: {best_threshold} Best F1-score: {best_f1:.4f}, Best Accuracy: {best_acc:.4f} LogLoss: {log_loss_metric}"
+        )
     else:
         f1 = f1_score((y_true > threshold), (y_predict > threshold))
         acc = accuracy_score((y_true > threshold), (y_predict > threshold))
-        print(f"{prefix} F1-score: {f1:.4f}, Accuracy: {acc:.4f}")
+        print(f"{prefix} F1-score: {f1:.4f}, Accuracy: {acc:.4f} LogLoss: {log_loss_metric}")
 
 
 def main() -> NoReturn:
