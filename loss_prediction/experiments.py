@@ -18,8 +18,8 @@ def print_scores(y_true: Iterable, y_predict: Iterable, prefix: str = "") -> NoR
     mae = mean_absolute_error(y_true, y_predict)
     mse = mean_squared_error(y_true, y_predict)
     r2 = r2_score(y_true, y_predict)
-    f1 = f1_score((y_true > 0), (y_predict > 0))
-    acc = accuracy_score((y_true > 0), (y_predict > 0))
+    f1 = f1_score((y_true < 0), (y_predict < 0))
+    acc = accuracy_score((y_true < 0), (y_predict < 0))
     print(f"{prefix} MAE: {mae:4f} MSE: {mse:.4f}, R2-score: {r2:.4f}, F1-score: {f1:.4f}, Accuracy: {acc:.4f}")
 
 
