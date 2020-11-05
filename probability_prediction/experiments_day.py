@@ -30,6 +30,7 @@ def print_scores(
                 best_f1 = f1
                 best_acc = acc
                 best_threshold = tmp_threshold
+                continue
         print(f"{prefix} Threshold: {best_threshold} Best F1-score: {best_f1:.4f}, Best Accuracy: {best_acc:.4f}")
     else:
         f1 = f1_score((y_true > threshold), (y_predict > threshold))
@@ -58,8 +59,6 @@ def main() -> NoReturn:
         KNeighborsClassifier(5),
     ]
 
-    fig, axs = plt.subplots(2, 1, figsize=(16, 16))
-
     for model in models:
         model.fit(x_train, y_train)
         y_predict = model.predict_proba(x_test)[:, 1]
@@ -68,15 +67,11 @@ def main() -> NoReturn:
         print_scores(y_test, y_predict, f"{class_name} day event prediction")
         print("")
 
-        axs[0].plot(y_test.index, y_predict, label=class_name)
+        plt.plot(y_test.index, y_predict, label=class_name)
 
-    axs[0].plot(y_test, label="True")
-    axs[0].legend()
-    axs[0].set_title(f"Probability that price will fall by {percent}% relative to previous day")
-
-    # axs[1].plot(true_month_losses, label="True")
-    # axs[1].legend()
-    # axs[1].set_title("Losses relative to previous month average price")
+    plt.plot(y_test, label="True")
+    plt.legend()
+    plt.title(f"Probability that price will fall by {percent}% relative to previous day")
     plt.show()
 
 
