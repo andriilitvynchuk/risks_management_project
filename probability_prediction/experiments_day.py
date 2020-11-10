@@ -34,12 +34,12 @@ def print_scores(
                 best_threshold = tmp_threshold
                 continue
         print(
-            f"{prefix} Threshold: {best_threshold} Best F1-score: {best_f1:.4f}, Best Accuracy: {best_acc:.4f}, LogLoss: {log_loss_metric}"
+            f"{prefix} Threshold: {best_threshold} Best F1-score: {best_f1:.4f}, Best Accuracy: {best_acc:.4f}, LogLoss: {log_loss_metric:.4f}"
         )
     else:
         f1 = f1_score((y_true > threshold), (y_predict > threshold))
         acc = accuracy_score((y_true > threshold), (y_predict > threshold))
-        print(f"{prefix} F1-score: {f1:.4f}, Accuracy: {acc:.4f} LogLoss: {log_loss_metric}")
+        print(f"{prefix} F1-score: {f1:.4f}, Accuracy: {acc:.4f} LogLoss: {log_loss_metric:.4f}")
 
 
 def main() -> NoReturn:
@@ -61,7 +61,7 @@ def main() -> NoReturn:
         SVC(C=100, probability=True),
         RandomForestClassifier(n_estimators=100),
         KNeighborsClassifier(5),
-        XGBClassifier(),
+        XGBClassifier(n_estimators=100, reg_lambda=0.1, max_depth=100, n_jobs=-1),
     ]
 
     for model in models:
@@ -69,7 +69,8 @@ def main() -> NoReturn:
         y_predict = model.predict_proba(x_test)[:, 1]
 
         class_name = model.__class__.__name__
-        print_scores(y_test, y_predict, f"{class_name} day event prediction")
+        print_scores(y_train, model.predict(x_train), f"{class_name} train day event prediction")
+        print_scores(y_test, y_predict, f"{class_name} test day event prediction")
         print("")
 
         plt.plot(y_test.index, y_predict, label=class_name)
