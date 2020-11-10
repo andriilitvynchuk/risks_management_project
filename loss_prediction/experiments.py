@@ -7,6 +7,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import Lasso, LinearRegression, Ridge
 from sklearn.metrics import accuracy_score, f1_score, mean_absolute_error, mean_squared_error, r2_score
 from sklearn.svm import SVR
+from xgboost import XGBRegressor
 
 
 sys.path.append(".")
@@ -41,8 +42,9 @@ def main() -> NoReturn:
         LinearRegression(fit_intercept=False, n_jobs=-1),
         Ridge(fit_intercept=False, alpha=100),
         Lasso(fit_intercept=False, alpha=2),
-        SVR(),
-        RandomForestRegressor(),
+        SVR(C=100),
+        RandomForestRegressor(max_depth=10),
+        XGBRegressor(n_estimators=500, reg_lambda=0.1, max_depth=100, n_jobs=-1),
     ]
 
     true_day_losses = y_test - x_test["ar(1)"]
