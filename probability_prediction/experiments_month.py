@@ -9,6 +9,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, f1_score, log_loss
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
+from xgboost import XGBClassifier
 
 
 sys.path.append(".")
@@ -60,6 +61,7 @@ def main() -> NoReturn:
         SVC(C=100, probability=True),
         RandomForestClassifier(n_estimators=100),
         KNeighborsClassifier(5),
+        XGBClassifier(),
     ]
 
     for model in models:

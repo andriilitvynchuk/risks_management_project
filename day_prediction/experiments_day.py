@@ -7,6 +7,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import Lasso, LinearRegression, Ridge
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.svm import SVR
+from xgboost import XGBRegressor
 
 
 sys.path.append(".")
@@ -44,6 +45,7 @@ def main() -> NoReturn:
         Lasso(fit_intercept=False, alpha=100),
         SVR(C=0.1),
         RandomForestRegressor(),
+        XGBRegressor(),
     ]
 
     for model in models:
