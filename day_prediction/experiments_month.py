@@ -44,8 +44,8 @@ def main() -> NoReturn:
         Ridge(fit_intercept=False, alpha=1),
         Lasso(fit_intercept=False, alpha=1),
         SVR(),
-        RandomForestRegressor(),
-        XGBRegressor(),
+        RandomForestRegressor(n_estimators=50, max_depth=5),
+        XGBRegressor(n_estimators=50, reg_lambda=0.005, max_depth=5, n_jobs=-1),
     ]
 
     for model in models:
