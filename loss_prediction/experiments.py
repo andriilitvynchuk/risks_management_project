@@ -1,6 +1,7 @@
 import sys
 from typing import Iterable, NoReturn
 
+import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 from sklearn.ensemble import RandomForestRegressor
@@ -49,6 +50,9 @@ def main() -> NoReturn:
 
     true_day_losses = y_test - x_test["ar(1)"]
     true_month_losses = y_test - y_train.loc["2019-12"].mean()
+    plt.plot(true_month_losses.index, true_month_losses)
+    plt.plot(true_month_losses.index, [0] * len(true_month_losses.index))
+    plt.xticks(rotation="vertical")
 
     fig, axs = plt.subplots(2, 1, figsize=(16, 16))
 
@@ -66,6 +70,9 @@ def main() -> NoReturn:
 
         axs[0].plot(y_test.index, predict_day_losses, label=class_name)
         axs[1].plot(y_test.index, predict_month_losses, label=class_name)
+
+    with open("./data/best_day_loss.txt", "w") as file:
+        np.savetxt(file, models[1].predict(x_test) - x_test["ar(1)"].values)
 
     axs[0].plot(true_day_losses, label="True")
     axs[0].legend()

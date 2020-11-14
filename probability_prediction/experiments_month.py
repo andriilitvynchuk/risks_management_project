@@ -77,7 +77,7 @@ def main() -> NoReturn:
 
     plt.plot(y_test, label="True")
     plt.legend()
-    plt.title("Losses relative to previous month average price")
+    plt.title(f"Probability that price will fall by {percent * 100}% relative to previous konth average price")
     plt.show()
 
 

@@ -75,9 +75,12 @@ def main() -> NoReturn:
 
         plt.plot(y_test.index, y_predict, label=class_name)
 
+    with open("./data/best_day_prob.txt", "w") as file:
+        np.savetxt(file, models[-1].predict_proba(x_test)[:, 1])
+
     plt.plot(y_test, label="True")
     plt.legend()
-    plt.title(f"Probability that price will fall by {percent}% relative to previous day")
+    plt.title(f"Probability that price will fall by {percent * 100}% relative to previous day")
     plt.show()
 
 
